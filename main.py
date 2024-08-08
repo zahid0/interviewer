@@ -94,7 +94,7 @@ with gr.Blocks() as demo:
         years_experience = gr.Number(label="Years of Experience", value=5)
         job_title = gr.Textbox(label="Job Title", value="Software Engineer")
 
-    requirement_prompt_button = gr.Button("Generate Prompt")
+    requirement_prompt_button = gr.Button("Start")
 
     with gr.Row():
         requirement_system_prompt = gr.Textbox(
