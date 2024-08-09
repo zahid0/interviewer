@@ -86,6 +86,10 @@ def generate_ideal_answer(question, job_title, years_experience):
     return generate_with_llm(prompt, system_prompt)
 
 
+def after_upload(audio, *args):
+    return gr.Column(visible=True)
+
+
 # Gradio interface
 with gr.Blocks() as demo:
     gr.Markdown("## Job Interview Preparation Workflow")
@@ -130,17 +134,21 @@ with gr.Blocks() as demo:
     )
 
     with gr.Column(visible=False) as answer_recording_fields:
-        with gr.Row():
-            audio_input = (
-                gr.Audio(
-                    label="Record Answer",
-                    sources=["microphone"],
-                    type="filepath",
-                    format="mp3",
-                ),
-            )
-            transcribe_button = gr.Button("Transcribe the Answer")
+        audio_input = (
+            gr.Audio(
+                label="Record Answer",
+                sources=["microphone"],
+                type="filepath",
+                format="mp3",
+            ),
+        )
+    with gr.Column(visible=False) as transcribe_fields:
+        transcribe_button = gr.Button("Transcribe the Answer")
         answer = gr.Textbox(label="Transcription", interactive=False)
+
+    audio_input[0].stop_recording(
+        fn=after_upload, inputs=audio_input, outputs=transcribe_fields
+    )
 
     generate_question_button.click(
         generate_interview_questions,
