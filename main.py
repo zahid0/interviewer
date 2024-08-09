@@ -139,7 +139,6 @@ with gr.Blocks() as demo:
                 label="Record Answer",
                 sources=["microphone"],
                 type="filepath",
-                format="mp3",
             ),
         )
     with gr.Column(visible=False) as transcribe_fields:
