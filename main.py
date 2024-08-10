@@ -1,9 +1,11 @@
+import os
+
 import gradio as gr
 from litellm import completion, transcription
 
 # Define your model and parameters
 TRANSCRIPTION_MODEL = "groq/whisper-large-v3"
-COMPLETION_MODEL = "groq/llama-3.1-8b-instant"  # Adjust as needed
+COMPLETION_MODEL = os.getenv("MODEL_NAME", "groq/llama-3.1-8b-instant")
 MAX_TOKENS = 2048
 
 
@@ -181,4 +183,10 @@ with gr.Blocks() as demo:
         outputs=[ideal_answer],
     )
 
-demo.launch()
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
+
+if username and password:
+    demo.launch(auth=(username, password))
+else:
+    demo.launch()
